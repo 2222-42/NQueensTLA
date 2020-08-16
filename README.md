@@ -58,6 +58,61 @@ toolboxのEvaluationでチェックする。
 
 1つ入れて、すでに配置済みのクイーンがあれば、それとの関係が他の駒を取りうる関係になっていないように取る。
 
+#### Backtracking Algorithm
+
+1) Start in the leftmost column
+2) If all queens are placed
+    return true
+3) Try all rows in the current column. 
+   Do following for every tried row.
+    a) If the queen can be placed safely in this row 
+       then mark this [row, column] as part of the 
+       solution and recursively check if placing
+       queen here leads to a solution.
+    b) If placing the queen in [row, column] leads to
+       a solution then return true.
+    c) If placing queen doesn't lead to a solution then
+       unmark this [row, column] (Backtrack) and go to 
+       step (a) to try other rows.
+3) If all rows have been tried and nothing worked,
+   return false to trigger backtracking.
+
+```c
+bool solveNQUtil(int board[N][N], int col) 
+{ 
+    /* base case: If all queens are placed 
+      then return true */
+    if (col >= N) 
+        return true; 
+  
+    /* Consider this column and try placing 
+       this queen in all rows one by one */
+    for (int i = 0; i < N; i++) { 
+        /* Check if the queen can be placed on 
+          board[i][col] */
+        if (isSafe(board, i, col)) { 
+            /* Place this queen in board[i][col] */
+            board[i][col] = 1; 
+  
+            /* recur to place rest of the queens */
+            if (solveNQUtil(board, col + 1)) 
+                return true; 
+  
+            /* If placing queen in board[i][col] 
+               doesn't lead to a solution, then 
+               remove queen from board[i][col] */
+            board[i][col] = 0; // BACKTRACK 
+        } 
+    } 
+  
+    /* If the queen cannot be placed in any row in 
+        this colum col  then return false */
+    return false; 
+} 
+```
+
+これをTLAが扱いやすいような形にしていこう。
+
 ### Safety Check
 
 なんかTypeInvariant作って、それが補完されているかを確認する
