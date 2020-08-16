@@ -46,6 +46,17 @@ IsSolution(<<2,4,1>>)
 > TRUE
 So I guess the naming is not good. And change it IsSolution into IsSafe
 *)
+IsSolution(queens) ==
+    /\ Len(queens) = N
+    /\ IsSafe(queens)
+(*
+IsSolution(<<2,4,1>>) 
+> FALSE
+IsSolution(<<2,4,3,1>>)
+> FALSE
+IsSolution(<<2,4,1,3>>)
+> TRUE
+*)
 
     
 =============================================================================
