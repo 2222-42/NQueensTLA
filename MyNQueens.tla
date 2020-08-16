@@ -35,11 +35,19 @@ In Evaluate Constant Expression:
 *)
 
 \* IsSolution is defined by there are no attackable
-IsSolution(queens) ==
+IsSafe(queens) ==
     \A i \in 1..Len(queens)-1: 
         \A j \in (i + 1)..Len(queens): 
             \neg Attackable(queens, i, j) 
+(* There might be not enough condition to assert it is solved.
+Think the following case: when there are no queens in the board N*N.
+e.g. 
+IsSolution(<<2,4,1>>) 
+> TRUE
+So I guess the naming is not good. And change it IsSolution into IsSafe
+*)
 
+    
 =============================================================================
 \* Modification History
 \* Last modified Sun Aug 16 10:18:23 JST 2020 by daioh
