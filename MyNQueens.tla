@@ -21,12 +21,16 @@ To search in more shorter steps by the following:
         \A j \in (i + 1)..Len(sampleQ1):
             \neg Attackable(sampleQ1, i, j) 
 > TRUE
+    IsSolution(sampleQ1) 
+> TRUE
 *)
 
 sampleQ2 == <<2,4,3,1>>
 (*
 In Evaluate Constant Expression:
-\A i, j \in 1..4: i = j \/ \neg Attackable(sampleQ2, i, j) 
+    \A i, j \in 1..4: i = j \/ \neg Attackable(sampleQ2, i, j) 
+> FALSE
+    IsSolution(sampleQ2) 
 > FALSE
 *)
 
