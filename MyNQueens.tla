@@ -4,7 +4,7 @@ EXTENDS Naturals, Sequences
 N == 4
 
 
-queens == [1..N -> 1..N]
+\* queens == [1..N -> 1..N]
 
 \* Make the relation between queens whether is able to attack each other or not
 Attackable(queens, i, j) ==
@@ -15,7 +15,11 @@ Attackable(queens, i, j) ==
 sampleQ1 == <<2,4,1,3>>
 (*
 In Evaluate Constant Expression:
-\A i, j \in 1..4: i = j \/ \neg Attackable(sampleQ1, i, j) 
+    \A i, j \in 1..4: i = j \/ \neg Attackable(sampleQ1, i, j) 
+To search in more shorter steps by the following:
+    \A i \in 1..Len(sampleQ1)-1: 
+        \A j \in (i + 1)..Len(sampleQ1):
+            \neg Attackable(sampleQ1, i, j) 
 > TRUE
 *)
 
@@ -25,6 +29,12 @@ In Evaluate Constant Expression:
 \A i, j \in 1..4: i = j \/ \neg Attackable(sampleQ2, i, j) 
 > FALSE
 *)
+
+\* IsSolution is defined by there are no attackable
+IsSolution(queens) ==
+    \A i \in 1..Len(queens)-1: 
+        \A j \in (i + 1)..Len(queens): 
+            \neg Attackable(queens, i, j) 
 
 =============================================================================
 \* Modification History
