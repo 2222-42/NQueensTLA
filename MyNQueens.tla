@@ -128,6 +128,9 @@ Invariant ==
     /\ solutions \subseteq { queens \in [1..N -> 1..N] : IsSolution(queens) }
     /\ targets = {} => { queens \in [1..N -> 1..N] : IsSolution(queens) } \subseteq  solutions
 
+Liveness == WF_vars(Lbl_1)
+
+SpecL == Spec /\ Liveness
 
 =============================================================================
 \* Modification History
