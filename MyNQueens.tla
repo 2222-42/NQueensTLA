@@ -117,8 +117,16 @@ Termination == <>(pc = "Done")
 
 \* END TRANSLATION - the hash of the generated TLA code (remove to silence divergence warnings): TLA-73f3370284ae9add551490dc262449d2
 
+TypeInvariant ==
+    /\ \A s \in solutions: Len(s) = N
+    /\ \A t \in targets: Len(t) < N
+
+\* to assert that
+\* always solutions is less than what is IsSolution, and
+\* at last, solutions is equal to the set of what is IsSolution
 Invariant == 
     /\ solutions \subseteq { queens \in [1..N -> 1..N] : IsSolution(queens) }
+    /\ targets = {} => { queens \in [1..N -> 1..N] : IsSolution(queens) } \subseteq  solutions
 
 
 =============================================================================
