@@ -63,7 +63,7 @@ IsSolution(<<2,4,1,3>>)
 (* --algorithm MyNQueens
     variables solutions = {}, targets = {<<>>}
 begin
-    while (targets # {}) do
+    nxtQ: while (targets # {}) do
         with queens \in targets, candidates = {c \in 1..N : IsSafe(Append(queens, c))} do
 
             \* if (\A i \in 1..Len(queens)-1: \neg Attackable(queens, i, Len(queens) + 1)) then
@@ -80,7 +80,7 @@ begin
 
     end while;
 end algorithm*)
-\* BEGIN TRANSLATION - the hash of the PCal code: PCal-16069f2b7f1e4d7134e22c57a54e5b95
+\* BEGIN TRANSLATION - the hash of the PCal code: PCal-f6c4eb0671326e84b76624b806bee135
 VARIABLES solutions, targets, pc
 
 vars == << solutions, targets, pc >>
@@ -88,32 +88,32 @@ vars == << solutions, targets, pc >>
 Init == (* Global variables *)
         /\ solutions = {}
         /\ targets = {<<>>}
-        /\ pc = "Lbl_1"
+        /\ pc = "nxtQ"
 
-Lbl_1 == /\ pc = "Lbl_1"
-         /\ IF (targets # {})
-               THEN /\ \E queens \in targets:
-                         LET candidates == {c \in 1..N : IsSafe(Append(queens, c))} IN
-                           IF (Len(queens) + 1 = N)
-                              THEN /\ targets' = targets \ {queens}
-                                   /\ solutions' = (solutions \union {Append(queens, c): c \in candidates})
-                              ELSE /\ targets' = ((targets \ {queens}) \union {Append(queens, c): c \in candidates})
-                                   /\ UNCHANGED solutions
-                    /\ pc' = "Lbl_1"
-               ELSE /\ pc' = "Done"
-                    /\ UNCHANGED << solutions, targets >>
+nxtQ == /\ pc = "nxtQ"
+        /\ IF (targets # {})
+              THEN /\ \E queens \in targets:
+                        LET candidates == {c \in 1..N : IsSafe(Append(queens, c))} IN
+                          IF (Len(queens) + 1 = N)
+                             THEN /\ targets' = targets \ {queens}
+                                  /\ solutions' = (solutions \union {Append(queens, c): c \in candidates})
+                             ELSE /\ targets' = ((targets \ {queens}) \union {Append(queens, c): c \in candidates})
+                                  /\ UNCHANGED solutions
+                   /\ pc' = "nxtQ"
+              ELSE /\ pc' = "Done"
+                   /\ UNCHANGED << solutions, targets >>
 
 (* Allow infinite stuttering to prevent deadlock on termination. *)
 Terminating == pc = "Done" /\ UNCHANGED vars
 
-Next == Lbl_1
+Next == nxtQ
            \/ Terminating
 
 Spec == Init /\ [][Next]_vars
 
 Termination == <>(pc = "Done")
 
-\* END TRANSLATION - the hash of the generated TLA code (remove to silence divergence warnings): TLA-d9625247a836614eb088706500786b35
+\* END TRANSLATION - the hash of the generated TLA code (remove to silence divergence warnings): TLA-1de1a768bb7662689639bb2263de4087
 
 TypeInvariant ==
     /\ \A s \in solutions: Len(s) = N
@@ -126,7 +126,7 @@ Invariant ==
     /\ solutions \subseteq { queens \in [1..N -> 1..N] : IsSolution(queens) }
     /\ targets = {} => { queens \in [1..N -> 1..N] : IsSolution(queens) } \subseteq  solutions
 
-Liveness == WF_vars(Lbl_1)
+Liveness == WF_vars(Next)
 
 SpecL == Spec /\ Liveness
 
