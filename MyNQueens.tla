@@ -1,7 +1,9 @@
 ----------------------------- MODULE MyNQueens -----------------------------
 EXTENDS Naturals, Sequences
 
-N == 4
+CONSTANT N
+
+ASSUME N \in Nat \ {0}
 
 
 \* queens == [1..N -> 1..N]
@@ -12,8 +14,8 @@ Attackable(queens, i, j) ==
     \/ i - j = queens[i] - queens[j]
     \/ i - j = queens[j] - queens[i]
 
-sampleQ1 == <<2,4,1,3>>
 (*
+sampleQ1 == <<2,4,1,3>>
 In Evaluate Constant Expression:
     \A i, j \in 1..4: i = j \/ \neg Attackable(sampleQ1, i, j) 
 To search in more shorter steps by the following:
@@ -25,8 +27,8 @@ To search in more shorter steps by the following:
 > TRUE
 *)
 
-sampleQ2 == <<2,4,3,1>>
 (*
+sampleQ2 == <<2,4,3,1>>
 In Evaluate Constant Expression:
     \A i, j \in 1..4: i = j \/ \neg Attackable(sampleQ2, i, j) 
 > FALSE
